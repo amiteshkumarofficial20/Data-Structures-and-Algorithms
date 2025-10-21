@@ -2,7 +2,7 @@
 using namespace std;
 
 /*
-    Doubly Linked List Detailed Demo in C++
+    Doubly Linked List in C++
     --------------------------------------
     This file combines the DLL skeleton with a basic demonstration.
     Features:

@@ -176,7 +176,6 @@ Node *deleteAtPosition(Node *head, int k)
         return nullptr;
     if (k == 1)
         return deleteHead(head);
-
     Node *temp = head;
     int count = 1;
 
@@ -301,5 +300,217 @@ After deleting node with value 20: ⚠️ Value 20 not found!
 🔹 Traversal (printLL) → O(N)
 🔹 Space Complexity (all ops) → O(1)
    - Only uses pointers, no extra data structures.
+==================================================
+*/
+
+/*
+==================================================
+📘 DETAILED ALGORITHM NOTES — LINKED LIST OPERATIONS
+==================================================
+
+🧩 1️⃣ NODE STRUCTURE
+--------------------------------------------------
+Each node in a singly linked list contains:
+   - `data`: the actual value stored (integer in this case)
+   - `next`: a pointer to the next node (or `nullptr` if it’s the last node)
+
+👉 Example:
+   [10 | *] → [20 | *] → [30 | *] → NULL
+
+--------------------------------------------------
+
+⚙️ 2️⃣ CONVERT ARRAY TO LINKED LIST
+--------------------------------------------------
+Purpose: Convert a vector of integers `{10, 20, 30, 40}` into a linked list.
+
+Algorithm:
+   1. Create the head node with the first element of the array.
+   2. Use a pointer `mover` to track the last node.
+   3. For every remaining element:
+        - Create a new node.
+        - Link it to the last node (`mover->next = newNode`).
+        - Move the `mover` forward.
+   4. Return `head`.
+
+Time Complexity → O(N)
+Space Complexity → O(1) (apart from the list itself)
+
+--------------------------------------------------
+
+🖨️ 3️⃣ PRINT LINKED LIST
+--------------------------------------------------
+Purpose: Traverse and print all elements of the linked list.
+
+Algorithm:
+   1. Initialize a temporary pointer `temp = head`.
+   2. While `temp` is not NULL:
+        - Print `temp->data`.
+        - Move to the next node (`temp = temp->next`).
+
+Time Complexity → O(N)
+Space Complexity → O(1)
+
+--------------------------------------------------
+
+➕ 4️⃣ INSERTION OPERATIONS
+--------------------------------------------------
+
+(A) Insert at Head
+------------------
+Algorithm:
+   1. Create a new node with given value.
+   2. Point its `next` to the current head.
+   3. Return this new node as the new head.
+
+Effect → Adds a node at the start.
+Time → O(1)
+
+--------------------------------------------------
+
+(B) Insert at Tail
+------------------
+Algorithm:
+   1. Create a new node.
+   2. If the list is empty → this node becomes head.
+   3. Otherwise, traverse till `temp->next == NULL`.
+   4. Set `temp->next = newNode`.
+
+Effect → Adds node at the end.
+Time → O(N)
+
+--------------------------------------------------
+
+(C) Insert at Kth Position (1-based)
+-------------------------------------
+Algorithm:
+   1. If k == 1 → call `insertAtHead()`.
+   2. Traverse the list till (k-1)-th node using counter.
+   3. If list ends before reaching (k-1), print “Position out of range”.
+   4. Otherwise:
+        - Create a new node.
+        - Set `newNode->next = temp->next`.
+        - Update `temp->next = newNode`.
+
+Effect → Inserts node at any desired position.
+Time → O(K)
+
+--------------------------------------------------
+
+(D) Insert After Given Value
+-----------------------------
+Algorithm:
+   1. Traverse until a node with the target `element` is found.
+   2. If not found → print “Element not found”.
+   3. Otherwise:
+        - Create a new node.
+        - Set `newNode->next = temp->next`.
+        - Update `temp->next = newNode`.
+
+Effect → Adds node immediately after a specified value.
+Time → O(N)
+
+--------------------------------------------------
+
+➖ 5️⃣ DELETION OPERATIONS
+--------------------------------------------------
+
+(A) Delete Head
+----------------
+Algorithm:
+   1. If head == NULL → return NULL.
+   2. Store current head in `temp`.
+   3. Move `head = head->next`.
+   4. Delete `temp` (to free memory).
+   5. Return new head.
+
+Effect → Removes the first node.
+Time → O(1)
+
+--------------------------------------------------
+
+(B) Delete Tail
+----------------
+Algorithm:
+   1. If list is empty or has one node → delete and return NULL.
+   2. Traverse until the second-last node (`temp->next->next == NULL`).
+   3. Delete `temp->next` (last node).
+   4. Set `temp->next = NULL`.
+
+Effect → Removes the last node.
+Time → O(N)
+
+--------------------------------------------------
+
+(C) Delete Node at Kth Position
+--------------------------------
+Algorithm:
+   1. If head == NULL → return NULL.
+   2. If k == 1 → call `deleteHead()`.
+   3. Traverse to (k-1)-th node using a counter.
+   4. If `temp->next == NULL` → position invalid, print warning.
+   5. Otherwise:
+        - Store pointer to kth node (`delNode = temp->next`).
+        - Bypass it → `temp->next = temp->next->next`.
+        - Delete `delNode` to free memory.
+   6. Return head.
+
+Effect → Deletes a node at any position.
+Time → O(K)
+Space → O(1)
+
+--------------------------------------------------
+
+(D) Delete Node by Value
+-------------------------
+Algorithm:
+   1. If list empty → return NULL.
+   2. If head’s data == value → delete head.
+   3. Traverse until `temp->next->data == val`.
+   4. If not found → print “Value not found”.
+   5. Otherwise:
+        - Store node to delete.
+        - Bypass it and delete the node.
+   6. Return head.
+
+Effect → Deletes first occurrence of value.
+Time → O(N)
+
+--------------------------------------------------
+
+📊 6️⃣ OVERALL COMPLEXITY SUMMARY
+--------------------------------------------------
+🔹 Insertions:
+   - At Head → O(1)
+   - At Tail → O(N)
+   - At Kth Position → O(K)
+   - After Given Value → O(N)
+
+🔹 Deletions:
+   - At Head → O(1)
+   - At Tail → O(N)
+   - At Kth Position → O(K)
+   - By Value → O(N)
+
+🔹 Traversal (printLL) → O(N)
+
+🔹 Space Complexity → O(1)
+   Only pointers are used; no auxiliary data structures.
+
+--------------------------------------------------
+
+💡 7️⃣ IMPORTANT NOTES
+--------------------------------------------------
+✅ Always handle edge cases:
+   - Empty list (head == NULL)
+   - Single node list
+   - Invalid position or missing value
+
+✅ Always free memory using `delete` to prevent memory leaks.
+
+✅ Insertion and Deletion change links only — no full data shifting.
+
+✅ Linked lists are dynamic structures — efficient for insert/delete,
+   but slower for random access compared to arrays.
+
 ==================================================
 */
