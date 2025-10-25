@@ -30,55 +30,76 @@ struct ListNode
     ListNode(int x) : val(x), next(nullptr) {}
 };
 
-// Core Solution Class
+// ------------------------------------------------------------
+// 🧩 Core Solution Class
+// ------------------------------------------------------------
 class Solution
 {
 public:
     ListNode *addTwoNumbers(ListNode *l1, ListNode *l2)
     {
 
-        // Dummy node simplifies result list construction
+        /*
+        💡 Why use a Dummy Node?
+        ------------------------
+        A dummy (or sentinel) node is a placeholder at the start of the new list.
+        It simplifies code because:
+          ✅ We don't need to handle the "first node" as a special case.
+          ✅ We can always safely append new nodes using 'current->next'.
+          ✅ Final result can be returned as 'dummyHead->next'.
+
+        Without it, we’d need extra conditions to check if the list is empty
+        before adding each new node.
+        */
+
+        // Create dummy node to simplify result list construction
         ListNode *dummyHead = new ListNode(-1);
-        ListNode *current = dummyHead; // pointer for result list
-        int carry = 0;
+        ListNode *current = dummyHead; // Pointer for result list
+        int carry = 0;                 // Stores carry between additions
 
         // Traverse both lists
         while (l1 != nullptr || l2 != nullptr)
         {
-            int sum = carry; // include carry each step
+            int sum = carry; // Include previous carry
 
+            // Add current digits if available
             if (l1)
-            { // add l1 digit if available
+            {
                 sum += l1->val;
                 l1 = l1->next;
             }
             if (l2)
-            { // add l2 digit if available
+            {
                 sum += l2->val;
                 l2 = l2->next;
             }
 
-            // Calculate new digit and carry
+            // Compute new digit and carry
             carry = sum / 10;
             int digit = sum % 10;
 
-            // Append the new digit node
+            // Append new digit node to result list
             current->next = new ListNode(digit);
             current = current->next;
         }
 
-        // If there's any carry left, add it as a node
+        // If carry remains after final addition, add a new node
         if (carry)
         {
             current->next = new ListNode(carry);
         }
 
-        // Return the next of dummy node (actual head)
+        // The first node (dummy) was just a placeholder
+        // Actual result starts from dummyHead->next
         return dummyHead->next;
     }
 };
 
-// Utility function: Create a linked list from an array
+// ------------------------------------------------------------
+// 🧰 Utility Functions
+// ------------------------------------------------------------
+
+// Create a linked list from an array
 ListNode *createList(int arr[], int n)
 {
     if (n == 0)
@@ -93,7 +114,7 @@ ListNode *createList(int arr[], int n)
     return head;
 }
 
-// Utility function: Print a linked list
+// Print linked list
 void printList(ListNode *head)
 {
     while (head)
@@ -106,13 +127,16 @@ void printList(ListNode *head)
     cout << endl;
 }
 
-// ---------------------- MAIN FUNCTION ----------------------
+// ------------------------------------------------------------
+// 🧪 Main Function (for local VS Code testing)
+// ------------------------------------------------------------
 int main()
 {
     // Example Input:
     // (2 -> 4 -> 3) + (5 -> 6 -> 4)
     int arr1[] = {2, 4, 3};
     int arr2[] = {5, 6, 4};
+
     int n1 = sizeof(arr1) / sizeof(arr1[0]);
     int n2 = sizeof(arr2) / sizeof(arr2[0]);
 
@@ -140,19 +164,30 @@ int main()
 /*
 ------------------------------------------------------------
 🧠 Algorithm (Iterative):
-1️⃣ Initialize dummy node & carry = 0.
-2️⃣ Traverse both lists:
-     ➤ Add current digits + carry.
-     ➤ Compute new digit = sum % 10.
-     ➤ Update carry = sum / 10.
-     ➤ Append new node with digit.
-3️⃣ If carry remains, append it.
-4️⃣ Return dummyHead->next (actual result).
+
+1️⃣ Initialize a dummy node and set carry = 0.
+2️⃣ Traverse both linked lists:
+     ➤ Add corresponding digits and the carry.
+     ➤ Compute new digit = (sum % 10).
+     ➤ Update carry = (sum / 10).
+     ➤ Create a node for the digit and attach it.
+3️⃣ If carry remains at the end, add it as a final node.
+4️⃣ Return dummyHead->next (head of the actual result list).
+
+------------------------------------------------------------
+💡 Why Dummy Node?
+   ➤ Prevents handling special cases for head node.
+   ➤ Simplifies node linking logic.
+   ➤ Makes the algorithm cleaner and easier to maintain.
 
 ------------------------------------------------------------
 ⏱️ Time Complexity:  O(max(m, n))
+   Each list is traversed once.
+
 💾 Space Complexity: O(max(m, n))
+   New nodes created for each digit of the sum.
+
 🧩 Category: Linked List, Math Simulation
-🧑‍💻 Level: Medium
+🧑‍💻 Difficulty: Medium
 ------------------------------------------------------------
 */
