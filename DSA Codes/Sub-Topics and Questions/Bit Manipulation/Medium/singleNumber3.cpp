@@ -1,120 +1,123 @@
 /*
-    =========================================================================================
+====================================================================================================
                             🔥 LeetCode 260 — Single Number III
                       Find the Two Numbers Appearing Odd Number of Times
-    =========================================================================================
+====================================================================================================
 
     🧩 PROBLEM STATEMENT:
     ---------------------
     You are given an integer array nums where:
-        - Every number occurs EXACTLY TWICE
-        - EXCEPT two numbers that occur EXACTLY ONCE (odd number of times)
+        - Every number appears EXACTLY TWICE
+        - Except TWO numbers which appear EXACTLY ONCE
 
     Return the two unique numbers in ASCENDING ORDER.
 
-    Example:
-        nums = [1,2,1,3,5,2]
-        Unique numbers = [3,5]
-
-    -----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
     🔢 EXAMPLES:
+        [1,2,1,3,5,2] → [3,5]
+        [4,1,2,1,2,3] → [3,4]
+        [10,20]       → [10,20]
 
-        Input  : [1,2,1,3,5,2]
-        Output : [3,5]
-
-        Input  : [4,1,2,1,2,3]
-        Output : [3,4]
-
-        Input  : [10,20]
-        Output : [10,20]
-
-    -----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
     ❗ CONSTRAINTS:
-        2 <= nums.length <= 3 * 10^4
-        All values fit in 32-bit signed integer.
+        2 ≤ nums.length ≤ 30000
+        All values fit in signed 32-bit integer.
 
-    =========================================================================================
-                                🥇 APPROACH 1 — Brute Force
-                                (Hash Map Frequency Count)
-    =========================================================================================
+====================================================================================================
+🥇 APPROACH 1 — BRUTE FORCE (HASH MAP)
+====================================================================================================
 
     🧠 INTUITION:
-    -------------
-    Count the frequency of each element using a hash map.
-    The elements with frequency == 1 are the answer.
+        Count frequency of each element.
+        The elements whose frequency is exactly 1 are the answer.
 
-    -----------------------------------------------------------------------------------------
-    🧾 PSEUDOCODE:
-    --------------
+    ----------------------------------------------------------------------------------------------
+    📌 ALGORITHM (STEP-BY-STEP):
+    --------------------------------
+    1. Create an empty hash map freq.
+    2. Loop through nums:
+           freq[num]++
+    3. Create an empty result list.
+    4. Loop through freq:
+           if value == 1 → push key into result.
+    5. Sort result in ascending order.
+    6. Return result.
+
+    ----------------------------------------------------------------------------------------------
+    📌 PSEUDOCODE:
         map freq
-        for each num:
+        for num in nums:
             freq[num]++
 
-        result = []
-        for each (key, val) in freq:
+        ans = []
+        for key,val in freq:
             if val == 1:
-                result.push(key)
+                ans.push(key)
 
-        sort(result)
-        return result
+        sort(ans)
+        return ans
 
-    -----------------------------------------------------------------------------------------
+    ----------------------------------------------------------------------------------------------
     ⏱ TIME COMPLEXITY:  O(n)
     💾 SPACE COMPLEXITY: O(n)
 
-    =========================================================================================
-                             ⚡ APPROACH 2 — OPTIMAL (BITWISE XOR)
-    =========================================================================================
+====================================================================================================
+⚡ APPROACH 2 — OPTIMAL BITWISE XOR
+====================================================================================================
 
     🧠 INTUITION:
-    -------------
-    Key Property of XOR:
-        a ^ a = 0
-        a ^ 0 = a
-        XOR cancels duplicates
+        XOR cancels duplicates:
+            a ^ a = 0
+            a ^ 0 = a
 
-    Let the two unique numbers be X and Y.
+        If two numbers are unique (say X and Y):
+            xorAll = X ^ Y
 
-    If we XOR ALL numbers:
-        xorAll = X ^ Y   (because all duplicates canceled)
+        Since X ≠ Y, xorAll has at least one bit set.
+        We extract the RIGHTMOST SET BIT:
 
-    Now, X and Y MUST differ in at least 1 bit.
-    We find the RIGHTMOST SET BIT in xorAll:
+            mask = xorAll & -xorAll
 
+        Use this bit to split the numbers into 2 groups:
+            • Group 1: bit is 1
+            • Group 2: bit is 0
+
+        Each unique number will fall into a different group.
+        XOR each group separately → retrieves both numbers.
+
+    ----------------------------------------------------------------------------------------------
+    📌 ALGORITHM (STEP-BY-STEP):
+    --------------------------------
+    1. Compute xorAll = XOR of all numbers.
+           xorAll = X ^ Y
+    2. Find rightmost set bit:
+           mask = xorAll & -xorAll
+    3. Initialize bucket1 = 0, bucket2 = 0.
+    4. Loop through nums:
+           if num & mask → bucket1 ^= num
+           else           → bucket2 ^= num
+    5. Sort bucket1 and bucket2.
+    6. Return [bucket1, bucket2].
+
+    ----------------------------------------------------------------------------------------------
+    📌 PSEUDOCODE:
+        xorAll = XOR(nums)
         mask = xorAll & -xorAll
 
-    This bit distinguishes X and Y:
-        - One has this bit = 1
-        - Other has this bit = 0
-
-    Partition the array into 2 groups based on this bit.
-
-    XOR within each group:
-        → gives X and Y separately.
-
-    -----------------------------------------------------------------------------------------
-    🧾 PSEUDOCODE:
-    --------------
-        xorAll = XOR of all elements
-        mask   = rightmostSetBit(xorAll)
-
-        bucket1 = 0
-        bucket2 = 0
-
-        for each num in nums:
+        a = 0, b = 0
+        for num in nums:
             if num & mask:
-                bucket1 ^= num
+                a ^= num
             else:
-                bucket2 ^= num
+                b ^= num
 
-        sort bucket1, bucket2
-        return [bucket1, bucket2]
+        return sorted(a, b)
 
-    -----------------------------------------------------------------------------------------
+    ----------------------------------------------------------------------------------------------
     ⏱ TIME COMPLEXITY:  O(n)
-    💾 SPACE COMPLEXITY: O(1)   (super optimal!)
+    💾 SPACE COMPLEXITY: O(1)
 
-    =========================================================================================
+====================================================================================================
 */
 
 #include <bits/stdc++.h>
@@ -146,22 +149,19 @@ vector<int> singleNumberOptimal(vector<int> &nums)
 {
     int xorAll = 0;
 
-    // XOR of all numbers = X ^ Y
     for (int num : nums)
         xorAll ^= num;
 
-    // Find rightmost set bit (bit where X and Y differ)
     int rightmostBit = xorAll & -xorAll;
 
     int bucket1 = 0, bucket2 = 0;
 
-    // Split numbers into 2 groups
     for (int num : nums)
     {
         if (num & rightmostBit)
-            bucket1 ^= num; // numbers having that bit set
+            bucket1 ^= num;
         else
-            bucket2 ^= num; // numbers having that bit not set
+            bucket2 ^= num;
     }
 
     vector<int> ans = {bucket1, bucket2};

@@ -1,108 +1,110 @@
 /*
-    =========================================================================================
+====================================================================================================
                                   🔥 LeetCode 137 — Single Number II
-                    Find the number appearing ONCE when all others appear THRICE
-    =========================================================================================
+                         Find the element that appears ONCE when others appear THRICE
+====================================================================================================
 
     🧩 PROBLEM STATEMENT:
     ---------------------
     Given an integer array nums where:
-      • Every element appears EXACTLY 3 TIMES
-      • Except ONE element, which appears EXACTLY ONCE
+       • Every element appears EXACTLY 3 TIMES
+       • Except ONE element, which appears EXACTLY ONCE
 
     Return that SINGLE UNIQUE element.
 
-    -----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
     🔢 EXAMPLES:
+        [2,2,3,2] → 3
+        [0,1,0,1,0,1,99] → 99
+        [-2,-2,1,1,-3,1,-3,-3,-4,-2] → -4
 
-        Input : [2,2,3,2]
-        Output: 3
+----------------------------------------------------------------------------------------------------
+    ❗ CONSTRAINT:
+    1 ≤ nums.size() ≤ 30000
+    Only ONE element appears once.
 
-        Input : [0,1,0,1,0,1,99]
-        Output: 99
-
-        Input : [-2,-2,1,1,-3,1,-3,-3,-4,-2]
-        Output: -4
-
-    -----------------------------------------------------------------------------------------
-    ❗ CONSTRAINTS:
-        1 ≤ nums.size() ≤ 3 * 10^4
-        -2^31 ≤ nums[i] ≤ 2^31−1
-
-    Only ONE unique number appears once.
-
-    =========================================================================================
-                                🥇 APPROACH 1 — Brute Force (Hash Map)
-    =========================================================================================
+====================================================================================================
+🥇 APPROACH 1 — BRUTE FORCE (HASH MAP)
+====================================================================================================
 
     🧠 INTUITION:
-    -------------
-    Simply count frequency of each number using a hash map.
-    The number that appears ONCE is the answer.
+        Count frequency of every number using a hash map.
+        The number with frequency 1 is the answer.
 
-    -----------------------------------------------------------------------------------------
-    🧾 PSEUDOCODE:
-    --------------
-        freq = empty map
+    📌 ALGORITHM (STEP-BY-STEP):
+    --------------------------------
+    1. Create an empty hash map: freq
+    2. Traverse the array:
+         - Increase freq[num]++
+    3. Traverse the hash map:
+         - If freq[x] == 1 → return x
+    4. Return -1 (never occurs because problem guarantees 1 unique number)
 
-        for num in nums:
-            freq[num]++
+    📌 PSEUDOCODE:
+        freq = map()
+        for x in nums:
+            freq[x]++
 
-        for (key, value) in freq:
-            if value == 1:
+        for key, val in freq:
+            if val == 1:
                 return key
 
-    -----------------------------------------------------------------------------------------
-    ⏱ TIME COMPLEXITY:  O(n)
+    ⏱ TIME COMPLEXITY:   O(n)
     💾 SPACE COMPLEXITY: O(n)
 
-    =========================================================================================
-                          ⚡ APPROACH 2 — Optimal (Bitwise Counting)
-    =========================================================================================
+====================================================================================================
+⚡ APPROACH 2 — OPTIMAL BITWISE COUNTING
+====================================================================================================
 
-    🧠 INTUITION (SUPER IMPORTANT):
-    -------------------------------
-    Since every number appears THREE times except ONE,
-    we count bits at each position (0 to 31).
+    🧠 INTUITION:
+        Since each repeating number appears 3 times,
+        counting bits at each position tells us which bits belong
+        to the unique number.
 
-        Example: nums = [2,2,3,2]
-        Binary:
-             2 → 010
-             2 → 010
-             2 → 010
-             3 → 011
-        Bit count per column:
-             bit0 → 1
-             bit1 → 4
-             bit2 → 0
+        Bit contribution rule:
+            count(bit) % 3 = unique_number_bit
 
-        Since duplicates appear 3 times:
-             bitCount % 3 → unique number's bits
+        Example:
+            nums = [2,2,3,2]
+            2 -> 010
+            2 -> 010
+            2 -> 010
+            3 -> 011
 
-    UNIQUE = ∑ ( (count[i] % 3) << i )
+            Bit counts:
+                bit0 = 1
+                bit1 = 4
+                bit2 = 0
 
-    -----------------------------------------------------------------------------------------
-    🧾 PSEUDOCODE:
-    --------------
+            bit0 % 3 = 1 → unique has bit0 = 1
+            bit1 % 3 = 1 → unique has bit1 = 1
+            => answer = 3 (011)
+
+    📌 ALGORITHM (STEP-BY-STEP):
+    --------------------------------
+    1. Set result = 0
+    2. Loop bit from 0 → 31:
+         a. count = 0
+         b. For each number:
+                if bit is set → count++
+         c. If count % 3 != 0 → set this bit in result
+    3. Return result
+
+    📌 PSEUDOCODE:
         result = 0
-
-        for bit in 0 to 31:
+        for bit = 0 ... 31:
             count = 0
-
             for num in nums:
-                if num has this bit:
+                if (num & (1 << bit)) != 0:
                     count++
-
-            if count % 3 == 1:
-                set this bit in result
-
+            if count % 3 != 0:
+                result |= (1 << bit)
         return result
 
-    -----------------------------------------------------------------------------------------
-    ⏱ TIME COMPLEXITY:  O(32 * n)  → O(n)
-    💾 SPACE COMPLEXITY: O(1)       → SUPER OPTIMAL
+    ⏱ TIME COMPLEXITY:   O(32n) → O(n)
+    💾 SPACE COMPLEXITY: O(1)
 
-    =========================================================================================
+====================================================================================================
 */
 
 #include <bits/stdc++.h>
@@ -122,29 +124,25 @@ int singleNumberBrute(vector<int> &nums)
         if (p.second == 1)
             return p.first;
 
-    return -1; // Problem guarantees this won't happen.
+    return -1; // logically unreachable
 }
 
 /* =========================================================================================
-                             ⚡ OPTIMAL APPROACH — BITWISE COUNTING
+                        ⚡ OPTIMAL APPROACH — BITWISE COUNTING
    ========================================================================================= */
 int singleNumberOptimal(vector<int> &nums)
 {
     int result = 0;
 
-    // Check each bit position from 0 to 31
+    // Check each bit from 0 to 31
     for (int bit = 0; bit < 32; bit++)
     {
         int count = 0;
 
-        // Count how many numbers have this bit set
         for (int num : nums)
-        {
             if (num & (1 << bit))
                 count++;
-        }
 
-        // If remainder is 1 → belongs to unique number
         if (count % 3 != 0)
             result |= (1 << bit);
     }
@@ -157,9 +155,9 @@ int singleNumberOptimal(vector<int> &nums)
    ========================================================================================= */
 int main()
 {
-    cout << "=================================================================\n";
-    cout << "🔥 LeetCode 137 — Single Number II  (Brute Force + Optimal)\n";
-    cout << "=================================================================\n\n";
+    cout << "===============================================================\n";
+    cout << "🔥 LeetCode 137 — Single Number II (Brute + Optimal)\n";
+    cout << "===============================================================\n\n";
 
     vector<vector<int>> tests = {
         {2, 2, 3, 2},
@@ -178,11 +176,11 @@ int main()
         cout << "Brute Force Result : " << singleNumberBrute(nums) << "\n";
         cout << "Optimal Result     : " << singleNumberOptimal(nums) << "\n";
 
-        cout << "-------------------------------------------------------------\n";
+        cout << "---------------------------------------------------------------\n";
     }
 
     cout << "\n✅ Execution Complete — All Test Cases Passed!\n";
-    cout << "=================================================================\n";
+    cout << "===============================================================\n";
 
     return 0;
 }
