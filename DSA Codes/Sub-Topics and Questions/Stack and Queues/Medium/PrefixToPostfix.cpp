@@ -2,7 +2,6 @@
 ====================================================================================================
     FILE: PrefixToPostfix.cpp
     TOPIC: Convert Prefix Expression to Postfix Expression
-   AUTHOR: ChatGPT
 ====================================================================================================
 
 📘 FULL PROBLEM STATEMENT
