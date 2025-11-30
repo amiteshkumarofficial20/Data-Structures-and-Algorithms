@@ -2,10 +2,6 @@
 //   LeetCode 704: Binary Search
 //   Filename : 704_binary_search.cpp
 // ============================================================================
-//
-//   FULL DOCUMENTATION (EXTREMELY DETAILED, INTERVIEW-GRADE)
-//   ---------------------------------------------------------
-//
 //   PROBLEM STATEMENT:
 //   -------------------
 //   You are given a sorted array of DISTINCT integers (strictly increasing)
