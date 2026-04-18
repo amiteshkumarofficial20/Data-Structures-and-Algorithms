@@ -7,29 +7,30 @@ int main()
     cout << "Enter n: ";
     cin >> n;
 
+    // Upper half
     for (int row = 1; row <= n; row++)
     {
-        // print spaces
+        // spaces
         for (int space = 1; space <= n - row; space++)
-        {
             cout << " ";
-        }
 
-        // print numbers
-        for (int num = 1; num <= row; num++)
-        {
-            cout << num;
-        }
-        // print numbers
-        for (int num = row - 1; num >= 1; num--)
-        {
-            cout << num;
-        }
-        // print spaces
+        // stars
+        for (int star = 1; star <= row; star++)
+            cout << "* ";
+
+        cout << endl;
+    }
+
+    // Lower half
+    for (int row = n - 1; row >= 1; row--)
+    {
+        // spaces
         for (int space = 1; space <= n - row; space++)
-        {
             cout << " ";
-        }
+
+        // stars
+        for (int star = 1; star <= row; star++)
+            cout << "* ";
 
         cout << endl;
     }

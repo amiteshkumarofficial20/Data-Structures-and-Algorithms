@@ -16,7 +16,7 @@ int main()
         }
 
         // print numbers
-        for (int num = 1; num <= row; num++)
+        for (int num = row; num >= 1; num--)
         {
             cout << num;
         }
