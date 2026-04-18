@@ -1,0 +1,38 @@
+// wrong
+//  #include <bits/stdc++.h>
+//  using namespace std;
+
+// int main()
+// {
+//     int n;
+//     cout << "Enter n: ";
+//     cin >> n;
+//     for (int row = n; row >= 1; row--)
+//     {
+//         for (int column = 1; column <= row; column++)
+//         {
+//             cout << column << " ";
+//         }
+//         cout << endl;
+//     }
+//     return 0;
+// }
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n;
+    cout << "Enter n: ";
+    cin >> n;
+    for (int row = 1; row <= n; row++)
+    {
+        for (int column = n; column >= n - row + 1; column--)
+        {
+            cout << column << " ";
+        }
+        cout << endl;
+    }
+    return 0;
+}
