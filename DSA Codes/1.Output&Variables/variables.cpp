@@ -18,5 +18,15 @@ int main()
     cout << x << endl;
     int y = 19;
     cout << y << endl;
+    float a = 3.1;
+    float b = 8.6;
+    cout << a << endl;
+    cout << b << endl;
+    cout << a / b << endl;
+    cout << a + b << endl;
+    cout << a - b << endl;
+    cout << a * b << endl;
+    // invalid for float -> cout << a % b << endl;
+    cout << 18.9 / 2 << endl;
     return 0; // optional
 }
