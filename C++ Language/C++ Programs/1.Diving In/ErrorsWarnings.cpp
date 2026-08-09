@@ -10,6 +10,6 @@ int main()
         int value = 7 / 3;
     std::cout << "value : " << value << std::endl;
 
-    23 / 0;
+    23 / 0; /// warning division by 0
     return 0;
 }
