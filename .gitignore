@@ -18,7 +18,7 @@
 *.so
 *.dylib
 
-# Debug/build output
+# Debug / build output
 *.out
 *.app
 
@@ -27,8 +27,9 @@
 # VISUAL STUDIO CODE
 # ============================================================
 
-# Ignore all VS Code workspace/settings folders
-.vscode/
+# IMPORTANT:
+# .vscode/ is NOT ignored.
+# We WANT the .vscode folder to be uploaded to GitHub.
 
 # VS Code workspace files
 *.code-workspace
@@ -53,7 +54,7 @@ tempCodeRunnerFile.cpp
 # COMPILER / DEBUG FILES
 # ============================================================
 
-# GCC/MinGW debug files
+# GCC / MinGW debug files
 *.d
 
 # Precompiled headers
@@ -119,11 +120,10 @@ Desktop.ini
 
 
 # ============================================================
-# KEEP SOURCE CODE + NOTES
+# SOURCE CODE + NOTES
 # ============================================================
 
-# IMPORTANT:
-# Do NOT ignore:
+# The following files are intentionally NOT ignored:
 #
 # *.cpp
 # *.c
@@ -133,4 +133,21 @@ Desktop.ini
 # *.txt
 # *.pdf
 #
-# These files will remain available for GitHub.
+# These files can be uploaded to GitHub normally.
+
+
+# ============================================================
+# IMPORTANT REPOSITORY RULE
+# ============================================================
+
+# Do NOT use:
+#
+# git add .
+#
+# when you want to upload only a specific folder.
+#
+# Instead use:
+#
+# git add "DSA Codes\8.Standard Template Library"
+#
+# This allows you to upload folders one by one.
