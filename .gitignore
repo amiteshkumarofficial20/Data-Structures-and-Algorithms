@@ -1,0 +1,136 @@
+# ============================================================
+# C / C++ BUILD OUTPUTS
+# ============================================================
+
+# Windows executable files
+*.exe
+
+# Object files
+*.o
+*.obj
+
+# Static libraries
+*.a
+*.lib
+
+# Dynamic libraries
+*.dll
+*.so
+*.dylib
+
+# Debug/build output
+*.out
+*.app
+
+
+# ============================================================
+# VISUAL STUDIO CODE
+# ============================================================
+
+# Ignore all VS Code workspace/settings folders
+.vscode/
+
+# VS Code workspace files
+*.code-workspace
+
+
+# ============================================================
+# CODE RUNNER / TEMPORARY FILES
+# ============================================================
+
+# Code Runner temporary file
+tempCodeRunnerFile.cpp
+
+# Other temporary Code Runner files
+*tempCodeRunnerFile*
+
+# Temporary files
+*.tmp
+*.temp
+
+
+# ============================================================
+# COMPILER / DEBUG FILES
+# ============================================================
+
+# GCC/MinGW debug files
+*.d
+
+# Precompiled headers
+*.gch
+*.pch
+
+
+# ============================================================
+# CMAKE / BUILD DIRECTORIES
+# ============================================================
+
+build/
+Build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
+
+# ============================================================
+# DEBUG / IDE FILES
+# ============================================================
+
+*.pdb
+*.ilk
+*.idb
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+
+# ============================================================
+# OPERATING SYSTEM FILES
+# ============================================================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+
+# ============================================================
+# LOG FILES
+# ============================================================
+
+*.log
+
+
+# ============================================================
+# BACKUP FILES
+# ============================================================
+
+*.bak
+*.swp
+*.swo
+*~
+
+
+# ============================================================
+# KEEP SOURCE CODE + NOTES
+# ============================================================
+
+# IMPORTANT:
+# Do NOT ignore:
+#
+# *.cpp
+# *.c
+# *.h
+# *.hpp
+# *.md
+# *.txt
+# *.pdf
+#
+# These files will remain available for GitHub.
